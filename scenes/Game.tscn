@@ -1,0 +1,472 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/Game.cs" id="1_game"]
+[ext_resource type="Script" path="res://scripts/Interactable.cs" id="2_inter"]
+[ext_resource type="PackedScene" path="res://scenes/Settings.tscn" id="3_set"]
+
+[sub_resource type="RectangleShape2D" id="Shape_textbook"]
+size = Vector2(220, 90)
+
+[sub_resource type="RectangleShape2D" id="Shape_bed"]
+size = Vector2(520, 220)
+
+[sub_resource type="RectangleShape2D" id="Shape_kettle"]
+size = Vector2(150, 150)
+
+[sub_resource type="RectangleShape2D" id="Shape_neighbor"]
+size = Vector2(240, 300)
+
+[sub_resource type="StyleBoxFlat" id="Fill_Knowledge"]
+bg_color = Color(0.25, 0.6, 0.95, 1)
+
+[sub_resource type="StyleBoxFlat" id="Fill_Energy"]
+bg_color = Color(0.3, 0.8, 0.4, 1)
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_game")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+color = Color(0.12, 0.13, 0.22, 1)
+
+[node name="Floor" type="ColorRect" parent="."]
+layout_mode = 0
+offset_top = 720.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+color = Color(0.22, 0.17, 0.13, 1)
+
+[node name="Decor" type="Node2D" parent="."]
+
+
+[node name="Desk" type="ColorRect" parent="Decor"]
+layout_mode = 0
+offset_left = 100.0
+offset_top = 520.0
+offset_right = 520.0
+offset_bottom = 700.0
+mouse_filter = 2
+color = Color(0.55, 0.38, 0.2, 1)
+
+[node name="Label" type="Label" parent="Decor/Desk"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 26
+text = "СТОЛ"
+
+[node name="NeighborBed" type="ColorRect" parent="Decor"]
+layout_mode = 0
+offset_left = 1300.0
+offset_top = 740.0
+offset_right = 1820.0
+offset_bottom = 960.0
+mouse_filter = 2
+color = Color(0.4, 0.3, 0.5, 1)
+
+[node name="Label" type="Label" parent="Decor/NeighborBed"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 26
+text = "КРОВАТЬ\nСОСЕДА"
+
+[node name="NeighborComputer" type="ColorRect" parent="Decor"]
+layout_mode = 0
+offset_left = 1560.0
+offset_top = 470.0
+offset_right = 1820.0
+offset_bottom = 640.0
+mouse_filter = 2
+color = Color(0.2, 0.3, 0.35, 1)
+
+[node name="Label" type="Label" parent="Decor/NeighborComputer"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 26
+text = "КОМПЬЮТЕР\nСОСЕДА"
+
+[node name="Objects" type="Node2D" parent="."]
+
+
+[node name="Textbook" type="Area2D" parent="Objects"]
+position = Vector2(180, 430)
+script = ExtResource("2_inter")
+ObjectId = "textbook"
+
+[node name="Visual" type="ColorRect" parent="Objects/Textbook"]
+layout_mode = 0
+offset_right = 220.0
+offset_bottom = 90.0
+mouse_filter = 2
+color = Color(0.8, 0.75, 0.5, 1)
+
+[node name="Label" type="Label" parent="Objects/Textbook"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 26
+text = "УЧЕБНИК"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Objects/Textbook"]
+position = Vector2(110.0, 45.0)
+shape = SubResource("Shape_textbook")
+
+[node name="PlayerBed" type="Area2D" parent="Objects"]
+position = Vector2(100, 740)
+script = ExtResource("2_inter")
+ObjectId = "bed"
+
+[node name="Visual" type="ColorRect" parent="Objects/PlayerBed"]
+layout_mode = 0
+offset_right = 520.0
+offset_bottom = 220.0
+mouse_filter = 2
+color = Color(0.3, 0.4, 0.7, 1)
+
+[node name="Label" type="Label" parent="Objects/PlayerBed"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 26
+text = "КРОВАТЬ\n(ваша)"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Objects/PlayerBed"]
+position = Vector2(260.0, 110.0)
+shape = SubResource("Shape_bed")
+
+[node name="Kettle" type="Area2D" parent="Objects"]
+position = Vector2(600, 560)
+script = ExtResource("2_inter")
+ObjectId = "kettle"
+
+[node name="Visual" type="ColorRect" parent="Objects/Kettle"]
+layout_mode = 0
+offset_right = 150.0
+offset_bottom = 150.0
+mouse_filter = 2
+color = Color(0.7, 0.7, 0.72, 1)
+
+[node name="Label" type="Label" parent="Objects/Kettle"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 26
+text = "ЧАЙНИК\n(кофе)"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Objects/Kettle"]
+position = Vector2(75.0, 75.0)
+shape = SubResource("Shape_kettle")
+
+[node name="Neighbor" type="Area2D" parent="Objects"]
+position = Vector2(1280, 430)
+script = ExtResource("2_inter")
+ObjectId = "neighbor"
+
+[node name="Visual" type="ColorRect" parent="Objects/Neighbor"]
+layout_mode = 0
+offset_right = 240.0
+offset_bottom = 300.0
+mouse_filter = 2
+color = Color(0.85, 0.65, 0.5, 1)
+
+[node name="Label" type="Label" parent="Objects/Neighbor"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 26
+text = "СОСЕД"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Objects/Neighbor"]
+position = Vector2(120.0, 150.0)
+shape = SubResource("Shape_neighbor")
+
+[node name="NoiseIcon" type="Label" parent="Objects/Neighbor"]
+unique_name_in_owner = true
+layout_mode = 0
+visible = false
+offset_left = 60.0
+offset_top = -70.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.35, 0.3, 1)
+theme_override_font_sizes/font_size = 48
+text = "ШУМ!"
+
+[node name="Hud" type="CanvasLayer" parent="."]
+
+
+[node name="HudPanel" type="ColorRect" parent="Hud"]
+offset_right = 1920.0
+offset_bottom = 130.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0.65)
+
+[node name="ClockLabel" type="Label" parent="Hud"]
+unique_name_in_owner = true
+offset_left = 40.0
+offset_top = 15.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 72
+text = "21:00"
+
+[node name="KnowledgeTitle" type="Label" parent="Hud"]
+unique_name_in_owner = true
+offset_left = 400.0
+offset_top = 20.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 28
+text = "ЗНАНИЯ 0/100"
+
+[node name="KnowledgeBar" type="ProgressBar" parent="Hud"]
+unique_name_in_owner = true
+offset_left = 400.0
+offset_top = 62.0
+offset_right = 740.0
+offset_bottom = 98.0
+mouse_filter = 2
+theme_override_styles/fill = SubResource("Fill_Knowledge")
+value = 0.0
+show_percentage = false
+
+[node name="EnergyTitle" type="Label" parent="Hud"]
+unique_name_in_owner = true
+offset_left = 800.0
+offset_top = 20.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 28
+text = "БОДРОСТЬ 100/100"
+
+[node name="EnergyBar" type="ProgressBar" parent="Hud"]
+unique_name_in_owner = true
+offset_left = 800.0
+offset_top = 62.0
+offset_right = 1140.0
+offset_bottom = 98.0
+mouse_filter = 2
+theme_override_styles/fill = SubResource("Fill_Energy")
+value = 100.0
+show_percentage = false
+
+[node name="KnowledgeMark" type="ColorRect" parent="Hud/KnowledgeBar"]
+layout_mode = 0
+offset_left = 238.0
+offset_right = 242.0
+offset_bottom = 36.0
+mouse_filter = 2
+color = Color(1, 1, 1, 1)
+
+[node name="GoalLabel" type="Label" parent="Hud"]
+offset_left = 600.0
+offset_top = 100.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 20
+text = "цель 70"
+
+[node name="CoffeeLabel" type="Label" parent="Hud"]
+unique_name_in_owner = true
+offset_left = 1230.0
+offset_top = 15.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.9, 0.8, 0.6, 1)
+theme_override_font_sizes/font_size = 34
+text = "Кофе: 3/3"
+
+[node name="NeighborState" type="Label" parent="Hud"]
+unique_name_in_owner = true
+offset_left = 1230.0
+offset_top = 65.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.6, 0.9, 0.6, 1)
+theme_override_font_sizes/font_size = 34
+text = "Сосед: Тихо"
+
+[node name="PauseButton" type="Button" parent="Hud"]
+unique_name_in_owner = true
+offset_left = 1720.0
+offset_top = 25.0
+offset_right = 1880.0
+offset_bottom = 95.0
+theme_override_font_sizes/font_size = 34
+text = "Пауза"
+
+[node name="NoticeLabel" type="Label" parent="Hud"]
+unique_name_in_owner = true
+offset_top = 145.0
+offset_right = 1920.0
+offset_bottom = 200.0
+horizontal_alignment = 1
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_font_sizes/font_size = 40
+text = ""
+
+[node name="BusyLabel" type="Label" parent="Hud"]
+unique_name_in_owner = true
+offset_left = 40.0
+offset_top = 1000.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 38
+text = ""
+
+[node name="ActionPanel" type="Panel" parent="Hud"]
+unique_name_in_owner = true
+visible = false
+offset_left = 660.0
+offset_top = 860.0
+offset_right = 1260.0
+offset_bottom = 1040.0
+
+[node name="ActionTitle" type="Label" parent="Hud/ActionPanel"]
+unique_name_in_owner = true
+offset_left = 20.0
+offset_top = 12.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 34
+text = "Предмет"
+
+[node name="ActionButton" type="Button" parent="Hud/ActionPanel"]
+unique_name_in_owner = true
+offset_left = 20.0
+offset_top = 75.0
+offset_right = 580.0
+offset_bottom = 150.0
+theme_override_font_sizes/font_size = 34
+text = "Действие"
+
+[node name="CloseButton" type="Button" parent="Hud/ActionPanel"]
+unique_name_in_owner = true
+offset_left = 535.0
+offset_top = 10.0
+offset_right = 585.0
+offset_bottom = 55.0
+theme_override_font_sizes/font_size = 28
+text = "X"
+
+[node name="PauseMenu" type="Control" parent="Hud"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+[node name="Dim" type="ColorRect" parent="Hud/PauseMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.85)
+[node name="Center" type="CenterContainer" parent="Hud/PauseMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+[node name="Box" type="VBoxContainer" parent="Hud/PauseMenu/Center"]
+layout_mode = 2
+theme_override_constants/separation = 28
+
+[node name="PauseTitle" type="Label" parent="Hud/PauseMenu/Center/Box"]
+layout_mode = 2
+horizontal_alignment = 1
+mouse_filter = 2
+theme_override_font_sizes/font_size = 96
+text = "ПАУЗА"
+
+[node name="ContinueButton" type="Button" parent="Hud/PauseMenu/Center/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(420, 90)
+theme_override_font_sizes/font_size = 40
+text = "Продолжить игру"
+
+[node name="PauseSettingsButton" type="Button" parent="Hud/PauseMenu/Center/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(420, 90)
+theme_override_font_sizes/font_size = 40
+text = "Настройки"
+
+[node name="ToMenuButton" type="Button" parent="Hud/PauseMenu/Center/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(420, 90)
+theme_override_font_sizes/font_size = 40
+text = "В главное меню"
+
+[node name="ResultScreen" type="Control" parent="Hud"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+[node name="Dim" type="ColorRect" parent="Hud/ResultScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.85)
+[node name="Center" type="CenterContainer" parent="Hud/ResultScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+[node name="Box" type="VBoxContainer" parent="Hud/ResultScreen/Center"]
+layout_mode = 2
+theme_override_constants/separation = 28
+
+[node name="ResultTitle" type="Label" parent="Hud/ResultScreen/Center/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 1
+mouse_filter = 2
+theme_override_font_sizes/font_size = 110
+text = "ПОБЕДА!"
+
+[node name="ResultText" type="Label" parent="Hud/ResultScreen/Center/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 1
+mouse_filter = 2
+theme_override_font_sizes/font_size = 40
+text = ""
+
+[node name="RestartButton" type="Button" parent="Hud/ResultScreen/Center/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(420, 90)
+theme_override_font_sizes/font_size = 40
+text = "Начать заново"
+
+[node name="ResultMenuButton" type="Button" parent="Hud/ResultScreen/Center/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(420, 90)
+theme_override_font_sizes/font_size = 40
+text = "В главное меню"
+
+[node name="SettingsPanel" parent="Hud" instance=ExtResource("3_set")]
+unique_name_in_owner = true

@@ -1,0 +1,63 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/SettingsPanel.cs" id="1"]
+
+[node name="SettingsPanel" type="Control"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Dim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.9)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Box" type="VBoxContainer" parent="Center"]
+layout_mode = 2
+theme_override_constants/separation = 28
+
+[node name="Title" type="Label" parent="Center/Box"]
+layout_mode = 2
+horizontal_alignment = 1
+mouse_filter = 2
+theme_override_font_sizes/font_size = 72
+text = "НАСТРОЙКИ"
+
+[node name="VolumeLabel" type="Label" parent="Center/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 1
+mouse_filter = 2
+theme_override_font_sizes/font_size = 40
+text = "Громкость: 100%"
+
+[node name="VolumeSlider" type="HSlider" parent="Center/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(700, 40)
+step = 1.0
+value = 100.0
+
+[node name="BackButton" type="Button" parent="Center/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(420, 90)
+theme_override_font_sizes/font_size = 40
+text = "Назад"

@@ -1,0 +1,174 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/MainMenu.cs" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/Settings.tscn" id="2"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.08, 0.09, 0.15, 1)
+
+[node name="MenuCenter" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MenuBox" type="VBoxContainer" parent="MenuCenter"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Title" type="Label" parent="MenuCenter/MenuBox"]
+layout_mode = 2
+horizontal_alignment = 1
+mouse_filter = 2
+theme_override_font_sizes/font_size = 96
+text = "ЭКЗАМЕН ЗАВТРА"
+
+[node name="StartButton" type="Button" parent="MenuCenter/MenuBox"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(420, 90)
+theme_override_font_sizes/font_size = 40
+text = "Начать игру"
+
+[node name="SettingsButton" type="Button" parent="MenuCenter/MenuBox"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(420, 90)
+theme_override_font_sizes/font_size = 40
+text = "Настройки"
+
+[node name="AboutButton" type="Button" parent="MenuCenter/MenuBox"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(420, 90)
+theme_override_font_sizes/font_size = 40
+text = "Об игре"
+
+[node name="ExitButton" type="Button" parent="MenuCenter/MenuBox"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(420, 90)
+theme_override_font_sizes/font_size = 40
+text = "Выход"
+
+[node name="AboutPanel" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+[node name="Dim" type="ColorRect" parent="AboutPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.85)
+[node name="Center" type="CenterContainer" parent="AboutPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+[node name="Box" type="VBoxContainer" parent="AboutPanel/Center"]
+layout_mode = 2
+theme_override_constants/separation = 28
+
+[node name="AboutText" type="Label" parent="AboutPanel/Center/Box"]
+layout_mode = 2
+custom_minimum_size = Vector2(1300, 0)
+autowrap_mode = 3
+mouse_filter = 2
+theme_override_font_sizes/font_size = 30
+text = "«Экзамен завтра» — небольшая 2D-игра о знакомой каждому студенту ситуации: до экзамена осталось всего 12 часов, а ты практически ничего не выучил.\n\nТвоя задача — продержаться до 9 утра, подготовиться к экзамену и не уснуть раньше времени. В твоём распоряжении учебник, ноутбук, кровать и несколько порций кофе. Но всё не так просто: силы заканчиваются, сосед мешает заниматься, а ночь постепенно подходит к концу.\n\nРаспределяй время, принимай решения, следи за своей бодростью и постарайся успеть выучить достаточно, чтобы сдать экзамен.\n\nПомни: кофе не заменяет знания, а сон — роскошь, которую ты не можешь себе позволить.\n\nУдачи. Она тебе понадобится!"
+
+[node name="Team" type="Label" parent="AboutPanel/Center/Box"]
+layout_mode = 2
+horizontal_alignment = 1
+mouse_filter = 2
+theme_override_font_sizes/font_size = 28
+text = "Разработано в рамках учебного проекта командой «AuRus»"
+
+[node name="AboutBackButton" type="Button" parent="AboutPanel/Center/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(420, 90)
+theme_override_font_sizes/font_size = 40
+text = "Назад"
+
+[node name="ConfirmPanel" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+[node name="Dim" type="ColorRect" parent="ConfirmPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.85)
+[node name="Center" type="CenterContainer" parent="ConfirmPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+[node name="Box" type="VBoxContainer" parent="ConfirmPanel/Center"]
+layout_mode = 2
+theme_override_constants/separation = 28
+
+[node name="ConfirmText" type="Label" parent="ConfirmPanel/Center/Box"]
+layout_mode = 2
+horizontal_alignment = 1
+mouse_filter = 2
+theme_override_font_sizes/font_size = 48
+text = "Вы действительно хотите выйти из игры?"
+
+[node name="Buttons" type="HBoxContainer" parent="ConfirmPanel/Center/Box"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 40
+
+[node name="ConfirmYesButton" type="Button" parent="ConfirmPanel/Center/Box/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(260, 90)
+theme_override_font_sizes/font_size = 40
+text = "Да"
+
+[node name="ConfirmNoButton" type="Button" parent="ConfirmPanel/Center/Box/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(260, 90)
+theme_override_font_sizes/font_size = 40
+text = "Нет"
+
+[node name="SettingsPanel" parent="." instance=ExtResource("2")]
+unique_name_in_owner = true

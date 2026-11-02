@@ -1,0 +1,22 @@
+# Godot
+.godot/
+.mono/
+
+# C# / .NET
+bin/
+obj/
+*.user
+
+# Редакторы
+.vs/
+.vscode/
+.idea/
+
+# Системное
+.DS_Store
+Thumbs.db
+
+# Сборки игры
+build/
+*.exe
+*.pck

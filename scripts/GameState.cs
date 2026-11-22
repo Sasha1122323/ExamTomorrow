@@ -22,6 +22,7 @@ public partial class GameState : Node
 
     private double _acc = 0;
     private int _noiseEndsAt = -1;
+    private int _noisyMin = 0;   // сколько минут текущего действия прошло при шуме
     private readonly List<(int expireAt, int amount)> _boosts = new List<(int expireAt, int amount)>();
 
     // ---------- Управление сессией ----------
@@ -38,6 +39,7 @@ public partial class GameState : Node
         BusyLeft = 0;
         _acc = 0;
         _noiseEndsAt = -1;
+        _noisyMin = 0;
         _boosts.Clear();
         Running = true;
         Notify();
@@ -59,9 +61,12 @@ public partial class GameState : Node
     {
         if (!Running || Paused) return;
         _acc += delta;
-        while (_acc >= Balance.RealSecPerGameMin)
+        while (true)
         {
-            _acc -= Balance.RealSecPerGameMin;
+            // Во время действия время идёт вдвое быстрее
+            double step = CurrentAction != null ? Balance.SecPerMinBusy : Balance.SecPerMinIdle;
+            if (_acc < step) break;
+            _acc -= step;
             Tick();
             if (!Running) break;
         }
@@ -71,6 +76,11 @@ public partial class GameState : Node
     private void Tick()
     {
         TimeMin++;
+
+        // Пассивная потеря бодрости (во сне не действует)
+        bool sleeping = CurrentAction != null && (CurrentAction.Id == "sleep" || CurrentAction.Id == "forced");
+        if (!sleeping && (TimeMin - Balance.StartMin) % Balance.PassiveEveryMin == 0)
+            Energy = Mathf.Max(0, Energy - Balance.PassiveLoss);
 
         // Закончилось действие кофе: бодрость падает обратно
         for (int i = _boosts.Count - 1; i >= 0; i--)
@@ -86,6 +96,7 @@ public partial class GameState : Node
 
         if (CurrentAction != null)
         {
+            if (IsNoisy) _noisyMin++;
             BusyLeft--;
             if (BusyLeft <= 0) FinishAction();
         }
@@ -97,7 +108,11 @@ public partial class GameState : Node
         }
 
         if (TimeMin >= Balance.EndMin)
-            Finish(Knowledge >= Balance.WinKnowledge ? "win" : "retake");
+        {
+            if (Knowledge < Balance.WinKnowledge) Finish("retake");
+            else if (Energy < Balance.WinEnergy) Finish("tired");
+            else Finish("win");
+        }
 
         Notify();
     }
@@ -133,13 +148,33 @@ public partial class GameState : Node
             return false;
         }
 
+        if (a.Cost > 0 && Energy < a.Cost)
+        {
+            Say("Не хватает бодрости.");
+            return false;
+        }
+
         if (a.Id == "coffee")
         {
             if (CoffeeLeft <= 0) { Say("Кофе нет."); return false; }
-            CoffeeLeft--;
+            CoffeeLeft--;                       // порция списывается сразу
         }
 
+        Energy = Mathf.Max(0, Energy - a.Cost); // бодрость списывается сразу
         BeginAction(a);
+        Notify();
+        return true;
+    }
+
+    public bool CancelAction()
+    {
+        if (!Running || Paused || CurrentAction == null || !CurrentAction.Cancelable) return false;
+
+        // Потраченное не возвращается, награда не начисляется
+        CurrentAction = null;
+        BusyLeft = 0;
+        _noisyMin = 0;
+        Say("Действие отменено.");
         Notify();
         return true;
     }
@@ -148,22 +183,32 @@ public partial class GameState : Node
     {
         CurrentAction = a;
         BusyLeft = a.Minutes;
+        _noisyMin = 0;
     }
 
     private void FinishAction()
     {
         var a = CurrentAction;
+        int noisyMin = _noisyMin;
         CurrentAction = null;
         BusyLeft = 0;
+        _noisyMin = 0;
+
+        // K = Tтиш/Tобщ * Kтиш + Tшум/Tобщ * Kшум
+        float share = a.Minutes > 0 ? Mathf.Clamp((float)noisyMin / a.Minutes, 0f, 1f) : 0f;
+        int kNoisy = a.KnowledgeNoisy < 0 ? a.Knowledge : a.KnowledgeNoisy;
+        int gNoisy = a.GainNoisy < 0 ? a.Gain : a.GainNoisy;
+        int knowledge = Mathf.RoundToInt(a.Knowledge * (1f - share) + kNoisy * share);
+        int gain = Mathf.RoundToInt(a.Gain * (1f - share) + gNoisy * share);
 
         int before = Energy;
-        Knowledge = Mathf.Clamp(Knowledge + a.Knowledge, 0, 100);
-        Energy = Mathf.Clamp(Energy + a.Energy, 0, 100);
+        Knowledge = Mathf.Clamp(Knowledge + knowledge, 0, 100);
+        Energy = Mathf.Clamp(Energy + gain, 0, 100);
 
         if (a.Id == "coffee")
         {
-            int gain = Energy - before;
-            if (gain > 0) _boosts.Add((TimeMin + Balance.CoffeeBoostMin, gain));
+            int added = Energy - before;
+            if (added > 0) _boosts.Add((TimeMin + Balance.CoffeeBoostMin, added));
             if (CoffeeLeft == 0) Say("Кофе закончился!");
         }
 
